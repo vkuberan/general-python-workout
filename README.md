@@ -1,2 +1,2 @@
-# general-python-workout
+# General Python Workout
 General Python Code Workouts
