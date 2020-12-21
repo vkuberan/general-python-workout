@@ -9,7 +9,7 @@ def clear_screen():
 
 
 def squared(numbers):
-    return numbers * numbers
+    return [(i * i) for i in numbers]
 
 
 def high_order_func_demo(transform, numbers):
@@ -18,6 +18,6 @@ def high_order_func_demo(transform, numbers):
 
 numbers = [1, 2, 3, 4, 5]
 
-result = list(high_order_func_demo(squared, numbers))
+result = high_order_func_demo(squared, numbers)
 print(numbers)
 print(result)
