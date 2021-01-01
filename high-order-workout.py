@@ -12,7 +12,14 @@ def squared(numbers):
     return [(i * i) for i in numbers]
 
 
-def cubed(n, j):
+# Right Implementation
+def cubed(n):
+    return [(x * x * x) for x in n]
+
+# Wrong Implementation and it will trigger an error
+
+
+def postive_to_negative(n, j):
     return [(x * x * x) for x in n]
 
 
@@ -22,7 +29,5 @@ def high_order_func_demo(transform, numbers):
 
 numbers = [1, 2, 3, 4, 5]
 
-result = high_order_func_demo(squared, numbers)
-print(numbers)
-print(result)
 print(high_order_func_demo(cubed, numbers))
+print(high_order_func_demo(postive_to_negative, numbers))
