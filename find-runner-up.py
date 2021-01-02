@@ -1,7 +1,10 @@
 if __name__ == '__main__':
     n = int(input())
-    arr = sorted(map(int, input().split()), reverse=True)
+    ori = list(map(int, input().split()))
 
+    print("Method 1")
+
+    arr = sorted(ori, reverse=True)
     i = 0
     l = len(arr) - 1
 
@@ -17,14 +20,20 @@ if __name__ == '__main__':
     print(arr[1])
 
     # Method 2
-    print("Method 2")
+    print("\nMethod 2")
 
-    lis = list(map(int, input().split()))
+    lis = ori.copy()
+    print(id(lis), id(ori))
     z = max(lis)
-
-    print("List: " + str(lis))
 
     while max(lis) == z:
         lis.remove(max(lis))
 
+    print("List: " + str(lis))
     print(max(lis))
+
+    print("\nMethod 3 (using set)")
+    print(set(ori))
+    usingset = sorted(list(set(ori)), reverse=True)
+    print(usingset)
+    print(usingset[1])
