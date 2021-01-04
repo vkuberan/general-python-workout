@@ -1,29 +1,6 @@
 import time
 import random
 
-
-def track_execution_time(f):
-
-    def wrap(*args, **kwargs):
-
-        start_time = time.time()
-        ret = f(*args, **kwargs)
-        end_time = time.time()
-        print('{:s} function took {:.3f} ms'.format(
-            f.__name__, (end_time - start_time)*1000.0))
-
-        return ret
-
-    return wrap
-
-
-@track_execution_time
-def using_sorted_without_key(li):
-    print("Using Sorted")
-    custom_bs = sorted(li)
-    return custom_bs
-
-
 grades = []
 time_taken = {}
 
