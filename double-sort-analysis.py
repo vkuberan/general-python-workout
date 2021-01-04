@@ -11,8 +11,6 @@ print("\tData Type: Float")
 for _ in range(10000000):
     grades.append(round(random.uniform(0.0, 10000000.0), 1))
 
-using_sorted_without_key(grades)
-
 grades_1 = grades.copy()
 
 start_time = time.time()
