@@ -7,7 +7,7 @@
 # four million, find the sum of the even-valued terms.
 
 
-def sum_of_even_number_fibonacci(max):
+def sum_of_even_number_fibonacci_1(max):
     prev = 0
     curr = 1
     nextTerm = 0
@@ -24,6 +24,24 @@ def sum_of_even_number_fibonacci(max):
     return total
 
 
-total = sum_of_even_number_fibonacci(4000000)
+def sum_of_even_number_fibonacci_2(max):
+    prev, curr = 1, 2
+    total = 0
+
+    while curr <= max:
+        # Swapping happens in a single line.
+        prev, curr = curr, (prev + curr)
+        if(curr % 2 == 0):
+            total += curr
+        print(curr, end=", ")
+
+    return total
+
+
+total = sum_of_even_number_fibonacci_1(4000000)
+print()
+print(total)
+
+total = sum_of_even_number_fibonacci_2(4000000)
 print()
 print(total)
