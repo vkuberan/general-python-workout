@@ -4,6 +4,8 @@ import requests
 
 time_taken = {}
 
+# cities.html is an simple html file located in the same directory
+
 with open('cities.html') as html_file:
 
     # html.parser
@@ -32,6 +34,11 @@ with open('cities.html') as html_file:
 
 for key, val in time_taken.items():
     print("{} {}".format(key, val))
+
+# Results
+# html.parser 0.065
+# lxml 0.055
+# html5lib 0.157
 
 
 title = soup.title
