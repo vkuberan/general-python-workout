@@ -8,8 +8,15 @@ with open('cities.html') as html_file:
 
 title = soup.title
 title_text = soup.title.text
-articles = soup.find_all('article')
 
-print(title)
+
 print(title_text)
-print(articles)
+print("*" * len(title_text))
+print()
+
+for article in soup.find_all('article'):
+    headline = article.h1.text
+    summary = article.find("div", class_="summary").text
+    print(headline)
+    print(summary)
+    print("\n")
