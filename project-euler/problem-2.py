@@ -25,14 +25,17 @@ def sum_of_even_number_fibonacci_1(max):
 
 
 def sum_of_even_number_fibonacci_2(max):
-    prev, curr = 1, 2
+    prev, curr = 0, 1
     total = 0
 
     while curr <= max:
+
         # Swapping happens in a single line.
         prev, curr = curr, (prev + curr)
+
         if(curr % 2 == 0):
             total += curr
+
         print(curr, end=", ")
 
     return total
