@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-with open('cities.html') as html_file:
+with open('simple_city.html') as html_file:
     soup = BeautifulSoup(html_file, "lxml")
 
 title = soup.title
@@ -15,6 +15,7 @@ print()
 for article in soup.find_all('article'):
     headline = article.h1.text
     summary = article.find("div", class_="summary").text
+    print(article.attrs)
     print(headline)
     print(summary)
     print("\n")
