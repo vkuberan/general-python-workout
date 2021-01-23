@@ -72,6 +72,7 @@ for country, properties in wiki_countries_entry.items():
     details = soup.find('table', class_='infobox geography vcard').find(
         "tbody").find_all("tr")
 
+    prev = ''
     for detail in details:
         # we are going to get the details
         lftData = detail.find("th")
@@ -81,7 +82,14 @@ for country, properties in wiki_countries_entry.items():
             print("Both Contains data on both side")
         else:
             if lftData:
-                print(lftData)
+                if lftData.find("div", class_='country-name'):
+                    data = lftData.get_text(
+                        separator=", ", strip=True)
+                    print(data)
+                else:
+                    data = lftData.get_text(
+                        separator=", ", strip=True)
+                    print(data)
 
     input("\nPress any key to continue...")
     clear_screen()
