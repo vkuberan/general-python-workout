@@ -10,9 +10,15 @@ def clear_screen():
     return subprocess.call(command, shell=True)
 
 
+def print_char_under_string(msg, char='*', newline='\n\n'):
+    msg += "\n" + (char * len(msg))
+    print(msg, end=newline)
+
+
 project_dirs = {
-    'html_dir': 'html',
-    'data_dir': 'data'
+    'src': 'wiki',
+    'html_dir': 'wiki/html',
+    'data_dir': 'wiki/data'
 }
 
 # create 2 separate directories to save html and the scraped data
@@ -33,50 +39,49 @@ wiki_countries_entry = {
 }
 
 for country, properties in wiki_countries_entry.items():
+
+    data = {}
+
     clear_screen()
     commonStr = "Extracting {}'s general information from Wikipedia".format(
         country)
-    print(commonStr)
-    print('*' * len(commonStr))
+    print_char_under_string(commonStr)
 
     link_source = properties[0]
     html_file = '/'.join([project_dirs['html_dir'], properties[1]])
     data_file = '/'.join([project_dirs['data_dir'], properties[2]])
 
-    print("Wikipedia Link: {}, Files: [HTML: {}, Data: {}]".format(
-        link_source, html_file, data_file))
+    commonStr = "Wikipedia Link: {}, Files: [HTML: {}, Data: {}]".format(
+        link_source, html_file, data_file)
+    print_char_under_string(commonStr, '-')
 
     try:
         with open(html_file, 'rb') as html_source:
-            print("Fetching info from the crawled file.")
+            print_char_under_string(
+                "Fetching info from the crawled file.", '-', '\n')
             soup = BeautifulSoup(html_source, 'lxml')
     except:
-        print("Fetching data from the server using request.")
+        print_char_under_string(
+            "Fetching data from the server using request.", '-', '\n')
         res = requests.get(link_source)
         soup = BeautifulSoup(res.text, 'lxml')
         f = open(html_file, "wb+")
-        f.write(res.text.encode('utf8'))
+        f.write(res.text.encode('utf16'))
         f.close()
 
     details = soup.find('table', class_='infobox geography vcard').find(
         "tbody").find_all("tr")
 
-    print(details[0])
-    details = []
-
-    i = 0
-    data = {}
     for detail in details:
         # we are going to get the details
         lftData = detail.find("th")
+        rgtData = detail.find("td")
 
-        if lftData:
-            if i == 0:
-                print(lftData.find('div'))
-            # else:
-            #     print(lftData.get_text())
-
-        i += 1
+        if (lftData != None and rgtData != None):
+            print("Both Contains data on both side")
+        else:
+            if lftData:
+                print(lftData)
 
     input("\nPress any key to continue...")
     clear_screen()
