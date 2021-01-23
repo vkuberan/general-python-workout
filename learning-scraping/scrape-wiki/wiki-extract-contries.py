@@ -40,7 +40,7 @@ wiki_countries_entry = {
 
 for country, properties in wiki_countries_entry.items():
 
-    data = {}
+    country_data = {}
 
     clear_screen()
     commonStr = "Extracting {}'s general information from Wikipedia".format(
@@ -56,17 +56,19 @@ for country, properties in wiki_countries_entry.items():
     print_char_under_string(commonStr, '-')
 
     try:
-        with open(html_file, 'rb') as html_source:
+        with open(html_file, 'rb') as hs:
+            html_source = hs.read().decode("UTF-8")
             print_char_under_string(
                 "Fetching info from the crawled file.", '-', '\n')
             soup = BeautifulSoup(html_source, 'lxml')
+            # print(soup.prettify())
     except:
         print_char_under_string(
             "Fetching data from the server using request.", '-', '\n')
         res = requests.get(link_source)
         soup = BeautifulSoup(res.text, 'lxml')
-        f = open(html_file, "wb+")
-        f.write(res.text.encode('utf16'))
+        f = open(html_file, mode='w', encoding='UTF-8')
+        f.write(res.text)
         f.close()
 
     details = soup.find('table', class_='infobox geography vcard').find(
@@ -79,17 +81,23 @@ for country, properties in wiki_countries_entry.items():
         rgtData = detail.find("td")
 
         if (lftData != None and rgtData != None):
-            print("Both Contains data on both side")
+            lftData = detail.find("th").get_text()
+            rgtData = detail.find("td").get_text(separator=', ', strip=True)
+            print(lftData, rgtData)
+
         else:
             if lftData:
                 if lftData.find("div", class_='country-name'):
-                    data = lftData.get_text(
-                        separator=", ", strip=True)
-                    print(data)
-                else:
-                    data = lftData.get_text(
-                        separator=", ", strip=True)
-                    print(data)
+                    # to get the entire text separated by commna (or any char) of an element
+                    # data = lftData.get_text(
+                    #     separator=", ", strip=True)
+                    country_data['country-name'] = lftData.find(
+                        "div", class_='country-name').get_text()
+                # else:
+                #     data = lftData.get_text(
+                #         separator=", ", strip=True)
+                #     print(data)
 
+    print(country_data)
     input("\nPress any key to continue...")
     clear_screen()
