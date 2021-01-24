@@ -1,6 +1,7 @@
 import os
 import platform
 import subprocess
+import json
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -91,4 +92,41 @@ def fetch_data(project_dirs, link_source, html_file):
 # parse strategy is based on the source.
 def get_list_of_all_countries(project_dirs, source, data, data_file):
     data_file = '/'.join([project_dirs['data_dir'], data_file])
-    print(data_file)
+    soup = BeautifulSoup(data, "lxml")
+    countries_data = {}
+
+    if source == 'wiki':
+        countries = soup.find('table', class_='wikitable').find(
+            "tbody").find_all("tr")
+
+        for country in countries:
+
+            if country.find("td"):
+                country_info = country.find_all("td")
+                country_name = country_info[0].get_text(
+                    separator=', ', strip=True)
+
+                if (', ' in country_name):
+                    print(country_name)
+                    country_name = country_name.split(",")[0]
+                    print(country_name)
+                    input("Press any key....\n\n\n")
+
+                country_name_tag = country_name.replace(
+                    "'", '-').replace(' ', '-').lower()
+
+                country_link = country_info[0].find('a').get('href')
+                date_joined = country_info[1].get_text(strip=True)
+                a_html_file = country_name_tag + ".html"
+                a_data_file = country_name_tag + ".json"
+                print("{}] ({}) ({}) {}".format(country_name, country_name_tag,
+                                                country_link, date_joined))
+
+                countries_data[country_name] = [country_name_tag, country_link,
+                                                date_joined, a_html_file,
+                                                a_data_file]
+
+        with open(data_file, 'w') as fp:
+            json.dump(countries_data, fp)
+
+    return countries_data

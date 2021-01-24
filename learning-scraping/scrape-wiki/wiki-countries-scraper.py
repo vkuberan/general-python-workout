@@ -32,6 +32,3 @@ data = fetch_data(project_dirs, wiki_countries_source, 'all-countries.html')
 # parse the data to get list of all countries
 list_of_all_countries = get_list_of_all_countries(
     project_dirs, 'wiki', data, 'all-countries.json')
-
-countries_soup = BeautifulSoup(data, "lxml")
-print(countries_soup.title.text)
