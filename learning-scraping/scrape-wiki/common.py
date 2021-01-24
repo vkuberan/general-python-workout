@@ -128,3 +128,8 @@ def get_list_of_all_countries(project_dirs, source, data, data_file):
             json.dump(countries_data, fp)
 
     return countries_data
+
+
+# get individual countries details
+def get_country_details(project_dirs, data):
+    pass
