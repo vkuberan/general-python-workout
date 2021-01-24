@@ -5,8 +5,7 @@
 
 from common import *
 import json
-from bs4 import BeautifulSoup
-import requests
+
 
 project_dirs = {
     'src': 'wiki',
@@ -20,13 +19,19 @@ create_related_dirs(project_dirs)
 
 clear_screen()
 
-link_source = 'https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations'
-countries_html = '/'.join([project_dirs['html_dir'], 'all-countries.html'])
+wiki_countries_source = 'https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations'
 countries_data = '/'.join([project_dirs['data_dir'], 'all-countries.json'])
 
 commonStr = "Extracting countries list from Wikipedia Source: {}".format(
-    link_source)
+    wiki_countries_source)
 print_char_under_string(commonStr, '-')
-data = fetch_data(project_dirs, link_source, countries_html)
+
+# fetch data from wiki source
+data = fetch_data(project_dirs, wiki_countries_source, 'all-countries.html')
+
+# parse the data to get list of all countries
+list_of_all_countries = get_list_of_all_countries(
+    project_dirs, 'wiki', data, 'all-countries.json')
+
 countries_soup = BeautifulSoup(data, "lxml")
 print(countries_soup.title.text)

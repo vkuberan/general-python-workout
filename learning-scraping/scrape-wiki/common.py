@@ -4,13 +4,14 @@ import subprocess
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from bs4 import BeautifulSoup
 
 # seconds
 DEFAULT_TIMEOUT = 5
 retry_strategy = Retry(
     total=5,
     backoff_factor=1,
-    status_forcelist=[429, 500, 502, 503, 504], # http://httpstat.us/
+    status_forcelist=[429, 500, 502, 503, 504],  # http://httpstat.us/
     method_whitelist=["HEAD", "GET", "OPTIONS"]
 )
 
@@ -53,6 +54,7 @@ def create_related_dirs(project_dirs):
 
 
 def fetch_data(project_dirs, link_source, html_file):
+    html_file = '/'.join([project_dirs['html_dir'], html_file])
     html_source = ''
     try:
         with open(html_file, 'rb') as hs:
@@ -71,7 +73,7 @@ def fetch_data(project_dirs, link_source, html_file):
             http.mount("http://", adapter)
 
             response = http.get(link_source)
-            print(response.headers)
+            # print(response.headers)
 
             html_source = response.text
             with open(html_file, mode='w', encoding='UTF-16') as f:
@@ -81,3 +83,10 @@ def fetch_data(project_dirs, link_source, html_file):
             print(e)
 
     return html_source
+
+# parse strategy is based on the source.
+
+
+def get_list_of_all_countries(project_dirs, source, data, data_file):
+    data_file = '/'.join([project_dirs['data_dir'], data_file])
+    print(data_file)
