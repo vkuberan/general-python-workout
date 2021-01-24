@@ -4,6 +4,7 @@
 # Wiki: 'https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations'
 
 from common import *
+
 import json
 
 
@@ -23,6 +24,7 @@ wiki_countries_source = 'https://en.wikipedia.org/wiki/Member_states_of_the_Unit
 
 commonStr = "Extracting countries list from Wikipedia Source: {}".format(
     wiki_countries_source)
+
 print_char_under_string(commonStr, '-')
 
 # fetch data from wiki source
@@ -33,5 +35,7 @@ list_of_all_countries = get_list_of_all_countries(
     project_dirs, 'wiki', data, 'all-countries.json')
 
 for country, values in list_of_all_countries.items():
-    print("{} Joined on {}, Wiki Source: {}, saved as {}".format(country, values[2],
-                                                                 values[1], values[3]))
+    print("'{}' Joined on {}, Wiki Source: {}, saved as {}".format(country,
+                                                                   values[2],
+                                                                   values[1],
+                                                                   values[3]))
