@@ -10,7 +10,7 @@ DEFAULT_TIMEOUT = 5
 retry_strategy = Retry(
     total=5,
     backoff_factor=1,
-    status_forcelist=[429, 500, 502, 503, 504],
+    status_forcelist=[429, 500, 502, 503, 504], # http://httpstat.us/
     method_whitelist=["HEAD", "GET", "OPTIONS"]
 )
 
