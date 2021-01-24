@@ -15,9 +15,8 @@ retry_strategy = Retry(
     method_whitelist=["HEAD", "GET", "OPTIONS"]
 )
 
+
 # To set default timeout parameter for our scrapper
-
-
 class WikiTimeOutHTTPAdapter(HTTPAdapter):
     def __init__(self, *args, **kwargs):
         self.timeout = DEFAULT_TIMEOUT
@@ -63,7 +62,8 @@ def fetch_data(project_dirs, link_source, html_file):
                 "Fetching info from the crawled file.", '-', '\n')
     except Exception as e:
         errno, errmsg = e.args
-        errmsg = 'Error: ' + errmsg + ". Creating new file {}.".format(html_file)
+        errmsg = 'Error: ' + errmsg + \
+            ". Creating new file {}.".format(html_file)
         print_char_under_string(errmsg, '*', '\n\n')
         print_char_under_string(
             "Fetching data from the server using request.", '-', '\n')
@@ -86,6 +86,7 @@ def fetch_data(project_dirs, link_source, html_file):
             print(e)
 
     return html_source
+
 
 # parse strategy is based on the source.
 def get_list_of_all_countries(project_dirs, source, data, data_file):
