@@ -61,7 +61,10 @@ def fetch_data(project_dirs, link_source, html_file):
             html_source = hs.read().decode("UTF-16")
             print_char_under_string(
                 "Fetching info from the crawled file.", '-', '\n')
-    except:
+    except Exception as e:
+        errno, errmsg = e.args
+        errmsg = 'Error: ' + errmsg + ". Creating new file {}.".format(html_file)
+        print_char_under_string(errmsg, '*', '\n\n')
         print_char_under_string(
             "Fetching data from the server using request.", '-', '\n')
 
@@ -85,8 +88,6 @@ def fetch_data(project_dirs, link_source, html_file):
     return html_source
 
 # parse strategy is based on the source.
-
-
 def get_list_of_all_countries(project_dirs, source, data, data_file):
     data_file = '/'.join([project_dirs['data_dir'], data_file])
     print(data_file)
