@@ -27,7 +27,7 @@ print_char_under_string(commonStr, '-')
 
 try:
     with open(html_file, 'rb') as hs:
-        html_source = hs.read().decode("UTF-8")
+        html_source = hs.read().decode("UTF-16")
         print_char_under_string(
             "Fetching info from the crawled file.", '-', '\n')
         soup = BeautifulSoup(html_source, 'lxml')
@@ -37,7 +37,7 @@ except:
         "Fetching data from the server using request.", '-', '\n')
     res = requests.get(link_source)
     soup = BeautifulSoup(res.text, 'lxml')
-    f = open(html_file, mode='w', encoding='UTF-8')
+    f = open(html_file, mode='w', encoding='UTF-16')
     f.write(res.text)
     f.close()
 
