@@ -1,9 +1,7 @@
-import common
+from common import *
+import json
 from bs4 import BeautifulSoup
 import requests
-
-
-
 
 project_dirs = {
     'src': 'wiki',
@@ -11,12 +9,9 @@ project_dirs = {
     'data_dir': 'wiki/data'
 }
 
-# create 2 separate directories to save html and the scraped data
-for dirname, dirpath in project_dirs.items():
+link_data = {}
 
-    # check weather the dir exists, if not create new one
-    if not os.path.exists(dirpath):
-        os.makedirs(dirpath)
+create_related_dirs(project_dirs)
 
 clear_screen()
 commonStr = "Extracting 'Member states of the United Nations's' general information from Wikipedia"
@@ -66,5 +61,13 @@ for country in countries:
 
         country_link = country_info[0].find('a').get('href')
         date_joined = country_info[1].get_text(strip=True)
+        a_html_file = country_name_tag + ".html"
+        a_data_file = country_name_tag + ".json"
         print("{}] ({}) ({}) {}".format(country_name,
                                         country_name_tag, country_link, date_joined))
+
+        link_data[country_name] = [country_name_tag,
+                                   country_link, date_joined, a_html_file, a_data_file]
+
+with open(data_file, 'w') as fp:
+    json.dump(link_data, fp)
