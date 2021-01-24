@@ -107,10 +107,10 @@ def get_list_of_all_countries(project_dirs, source, data, data_file):
                     separator=', ', strip=True)
 
                 if (', ' in country_name):
-                    print(country_name)
+                    # print(country_name)
                     country_name = country_name.split(",")[0]
-                    print(country_name)
-                    input("Press any key....\n\n\n")
+                    # print(country_name)
+                    # input("Press any key....\n\n\n")
 
                 country_name_tag = country_name.replace(
                     "'", '-').replace(' ', '-').lower()
@@ -119,8 +119,6 @@ def get_list_of_all_countries(project_dirs, source, data, data_file):
                 date_joined = country_info[1].get_text(strip=True)
                 a_html_file = country_name_tag + ".html"
                 a_data_file = country_name_tag + ".json"
-                print("{}] ({}) ({}) {}".format(country_name, country_name_tag,
-                                                country_link, date_joined))
 
                 countries_data[country_name] = [country_name_tag, country_link,
                                                 date_joined, a_html_file,
