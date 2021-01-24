@@ -24,9 +24,9 @@ link_source = 'https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations
 countries_html = '/'.join([project_dirs['html_dir'], 'all-countries.html'])
 countries_data = '/'.join([project_dirs['data_dir'], 'all-countries.json'])
 
-commonStr = "Extracting countries list from Wikipedia Link: {}".format(
+commonStr = "Extracting countries list from Wikipedia Source: {}".format(
     link_source)
 print_char_under_string(commonStr, '-')
 data = fetch_data(project_dirs, link_source, countries_html)
-countries_soup = BeautifulSoup(data)
-print(countries_soup.prettify())
+countries_soup = BeautifulSoup(data, "lxml")
+print(countries_soup.title.text)
