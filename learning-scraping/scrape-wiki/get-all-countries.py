@@ -1,18 +1,8 @@
-import os
-import platform
-import subprocess
+import common
 from bs4 import BeautifulSoup
 import requests
 
 
-def clear_screen():
-    command = "cls" if platform.system().lower() == "windows" else "clear"
-    return subprocess.call(command, shell=True)
-
-
-def print_char_under_string(msg, char='*', newline='\n\n'):
-    msg += "\n" + (char * len(msg))
-    print(msg, end=newline)
 
 
 project_dirs = {
@@ -63,3 +53,18 @@ for country in countries:
 
     if country.find("td"):
         country_info = country.find_all("td")
+        country_name = country_info[0].get_text(separator=', ', strip=True)
+
+        if (', ' in country_name):
+            print(country_name)
+            country_name = country_name.split(",")[0]
+            print(country_name)
+            input("Press any key....\n\n\n")
+
+        country_name_tag = country_name.replace(
+            "'", '-').replace(' ', '-').lower()
+
+        country_link = country_info[0].find('a').get('href')
+        date_joined = country_info[1].get_text(strip=True)
+        print("{}] ({}) ({}) {}".format(country_name,
+                                        country_name_tag, country_link, date_joined))
