@@ -3,7 +3,7 @@
 # population, gdp, etc., in a json file.
 # Wiki: 'https://en.wikipedia.org/wiki/Member_states_of_the_United_Nations'
 
-from common import *
+from helper import *
 import os
 import glob
 import time
@@ -71,6 +71,13 @@ for country, values in list_of_all_countries.items():
     # fetch data from wiki source
     data = fetch_data(project_dirs, link_source, html_file)
 
-    time.sleep(1)
+    country_details = get_country_details(
+        project_dirs, 'wiki', data, data_file)
+
+    # time.sleep(1)
+
+    if iCnt >= 180:
+        input("Press any key to continue...")
+
     iCnt += 1
     clear_screen()

@@ -6,6 +6,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
+from WikiParserHelper import *
 
 # seconds
 DEFAULT_TIMEOUT = 5
@@ -131,5 +132,71 @@ def get_list_of_all_countries(project_dirs, source, data, data_file):
 
 
 # get individual countries details
-def get_country_details(project_dirs, data):
-    pass
+def get_country_details(project_dirs, source, data, data_file):
+    data_file = '/'.join([project_dirs['data_dir'], data_file])
+    soup = BeautifulSoup(data, "lxml")
+
+    country_data = {}
+    culprit_found = False
+    if source == 'wiki':
+        details = soup.find('table', class_='infobox geography vcard').find(
+            "tbody").find_all("tr")
+        # remove style tag inside the table contents
+        # details = details.style.decompose()
+        prev = ''
+        msg = ''
+
+        for detail in details:
+            # we are going to get the details
+            lftData = detail.find("th")
+            rgtData = detail.find("td")
+
+            if (lftData != None and rgtData != None):
+
+                style_tag = rgtData.style
+                if style_tag != None:
+                    style_tag.decompose()
+                # •
+
+                lftData = detail.find("th").get_text(
+                    separator=', ', strip=True)
+                rgtData = detail.find("td").get_text(
+                    separator=', ', strip=True)
+
+                if detail.find("div", class_='country-name'):
+                    country_data['Country Name'] = detail.find(
+                        "div", class_='country-name').get_text(separator=", ", strip=True)
+                    culprit_found = True
+
+                if 'Capital' in lftData:
+                    capital_city, largest_city = wiki_parse_capital_city(
+                        lftData, rgtData[0:rgtData.find("/")])
+
+                    country_data['Capital City'] = capital_city
+
+                    if largest_city != '':
+                        country_data['Largest City'] = largest_city
+
+                msg += lftData + ': ' + rgtData + '\n'
+                # print(lftData + ': ' + rgtData)
+
+            else:
+                if lftData:
+
+                    if lftData.find("div", class_='country-name'):
+                        # to get the entire text separated by commna (or any char) of an element
+                        # data = lftData.get_text(
+                        #     separator=", ", strip=True)
+                        country_data['Country Name'] = lftData.find(
+                            "div", class_='country-name').get_text(separator=", ", strip=True)
+                    else:
+                        data = lftData.get_text(
+                            separator=", ", strip=True)
+                        msg += data + '\n'
+                        print(data)
+
+        print(country_data)
+        if culprit_found == True:
+            input("Country name is not found. But we caught him redhanded...")
+        with open('data-dump.txt', 'wb') as cd:
+            cd.write(msg.encode())
